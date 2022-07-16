@@ -1,0 +1,82 @@
+<DailyForecast>
+        {weatherDaily.map((e) => (
+            <div className="daily">
+                <h3>
+                    {_getWeekDay(e.dt)} {_getWeekDate(e.dt)}
+                </h3>
+                <img src={`http://openweathermap.org/img/wn/${e.weather[0].icon}@2x.png`} alt="" id="temp_icon" />
+                <h3>
+                    <span>day time</span> <br /> {Math.round(e.temp.day)}°
+                </h3>
+                <h3>
+                    <span>feels like</span>
+                    <br />
+                    {Math.round(e.feels_like.day)}°
+                </h3>
+
+                <div className="daily_info">
+                    <div className="daily_minmax">
+                        <p>
+                            <span>max</span>
+                            <br /> {Math.round(e.temp.max)}°
+                        </p>
+                        <p>
+                            <span>min</span>
+                            <br /> {Math.round(e.temp.min)}°
+                        </p>
+                    </div>
+                    <div className="daily_sun">
+                        <p>
+                            <span>sunrise</span>
+                            <br /> {_sunSetRise(e.sunrise)}am
+                        </p>
+                        <p>
+                            <span>sunset</span>
+                            <br /> {_sunSetRise(e.sunset)}pm
+                        </p>
+                    </div>
+                    <div className="daily_det">
+                        <p>
+                            <span>uvi</span> <br /> {e.uvi}
+                        </p>
+                        <p>
+                            <span>pressure</span>
+                            <br /> {e.pressure} hPa
+                        </p>
+                        <p>
+                            <span>wind speed</span>
+                            <br />
+                            {Math.round(e.wind_speed)}
+                        </p>
+                        <p>
+                            <span>humidity</span>
+                            <br /> {e.humidity}%
+                        </p>
+                        <p>
+                            <span>dew point</span>
+                            <br />
+                            {Math.round(e.dew_point)}°
+                        </p>
+                    </div>
+                    <div className="daily_quarterly">
+                        <p>
+                            <span>morn</span>
+                            <br /> {Math.round(e.temp.morn)}°
+                        </p>
+                        <p>
+                            <span>day</span>
+                            <br /> {Math.round(e.temp.day)}°
+                        </p>
+                        <p>
+                            <span>eve</span>
+                            <br /> {Math.round(e.temp.eve)}°
+                        </p>
+                        <p>
+                            <span>night</span>
+                            <br /> {Math.round(e.temp.night)}°
+                        </p>
+                    </div>
+                </div>
+            </div>
+        ))}
+    </DailyForecast>
