@@ -40,7 +40,7 @@ function WeatherMain() {
         return `${sunH} : ${sunM < 10 ? `0${sunM}` : `${sunM}`}`;
     };
 
-    console.log(weatherCurrent);
+    console.log(adress);
 
     const time = new Date(weatherCurrent.dt * 1000);
 
@@ -48,9 +48,9 @@ function WeatherMain() {
         <HomeTop>
             <div id="home_top_inner">
                 <div id="location">
-                    <h1 id="city">{adress.locality}</h1>
+                    <h1 id="city">{adress.properties.city}</h1>
                     <h3 id="region">
-                        {adress.region_code}, {adress.country_code}
+                        {adress.properties.state}, <span>{adress.properties.country_code}</span>
                     </h3>
                     <h4 id="current_time">
                         {`${_getWeekDay(weatherCurrent.dt)} ${_getWeekDate(weatherCurrent.dt)}, `}
@@ -103,6 +103,10 @@ const HomeTop = styled.div`
 
             #region {
                 font-size: 1.75rem;
+
+                span {
+                    text-transform: uppercase;
+                }
             }
 
             #current_time {

@@ -10,14 +10,23 @@ import { useContext } from "react";
 function Home() {
     const { input, setAdress, adressOptions, setAdressOptions, setWeather, weatherCurrent, setWeatherCurrent, setWeatherMinutely, setWeatherHourly, setWeatherDaily } = useContext(WeatherContext);
 
+    const options = {
+        method: "GET",
+        headers: {
+            "X-RapidAPI-Key": `${process.env.REACT_APP_API_KEY}`,
+            "X-RapidAPI-Host": `${process.env.REACT_APP_API_HOST}`,
+        },
+    };
+
     useEffect(() => {
         if (input) {
             _getAdressLongLat().then((data) => {
                 if (data.length > 1) {
-                    setAdressOptions(data);
+                    const arr = data.filter((value, index, self) => index === self.findIndex((t) => t.properties.postcode === value.properties.postcode));
+                    setAdressOptions(arr);
                 } else {
                     setAdress(data[0]);
-                    _getWeather(data[0].longitude, data[0].latitude).then((data) => {
+                    _getWeather(data[0].properties.lon, data[0].properties.lat).then((data) => {
                         setWeather(data);
                         setWeatherCurrent(data.current);
                         setWeatherMinutely(data.minutely);
@@ -31,9 +40,14 @@ function Home() {
     }, [input]);
 
     const _getAdressLongLat = async () => {
-        const api = await fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOLOCATION_API_KEY}&query=${input}&limit=10&output=json`);
-        const log = await api.json();
-        return log.data;
+        // const api = await fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOLOCATION_API_KEY}&query=${input}&limit=10&output=json`);
+        // const log = await api.json();
+        // console.log(log.data);
+        // return log.data;
+
+        const api = await fetch(`https://verify-and-geocode-address.p.rapidapi.com/v1/geocode/search?text=${input}`, options);
+        const result = await api.json();
+        return result.features;
     };
 
     const _getWeather = async (lon, lat) => {

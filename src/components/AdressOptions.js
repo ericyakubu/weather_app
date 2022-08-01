@@ -14,9 +14,10 @@ function AdressOptions() {
     };
 
     const _gotAdress = async (data) => {
+        console.log(data);
         setAdress(data);
         setAdressOptions(null);
-        _getWeather(data.longitude, data.latitude).then((data) => {
+        _getWeather(data.properties.lon, data.properties.lat).then((data) => {
             setWeather(data);
             setWeatherCurrent(data.current);
             setWeatherMinutely(data.minutely);
@@ -32,23 +33,19 @@ function AdressOptions() {
         <Container>
             <AdressOptionsStyled>
                 {adressOptions.map((e) => (
-                    <>
-                        <div
-                            key={e.latitude}
-                            className="adress_option"
-                            onClick={() => {
-                                _gotAdress(e);
-                            }}
-                        >
-                            <h3 className="country">{e.country}</h3>
-                            <h3 className="region">
-                                {e.region} ({e.region_code})
-                            </h3>
-                            <h3>{e.county}</h3>
-                            <h3>{e.postal_code}</h3>
-                            <h3 className="label">{e.label}</h3>
-                        </div>
-                    </>
+                    <div
+                        key={e.properties.lat}
+                        className="adress_option"
+                        onClick={() => {
+                            _gotAdress(e);
+                        }}
+                    >
+                        <h3 className="country">{e.properties.country}</h3>
+                        <h3 className="region">{e.properties.state}</h3>
+                        <h3>{e.properties.district}</h3>
+                        <h3>{e.properties.postcode}</h3>
+                        <h3 className="label">{e.properties.label}</h3>
+                    </div>
                 ))}
             </AdressOptionsStyled>
         </Container>
